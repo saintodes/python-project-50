@@ -1,6 +1,2 @@
-from .scripts.gendiff import main
+from .scripts.gendiff import generate_diff, generate_diff_from_files
 
-# from .scripts.file_parser import read_file
-
-if __name__ == '__main__':
-    main()
