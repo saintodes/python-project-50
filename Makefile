@@ -3,7 +3,7 @@ install:
 
 lint:
 	poetry run flake8 gendiff/
-	
+
 build:
 	poetry build
 
@@ -19,8 +19,11 @@ force-reinstall:
 test:
 	poetry run pytest
 
-test-coverage:
+cov:
 	poetry run pytest --cov=gendiff --cov-report xml
 
 run:
 	poetry run gendiff file1.json file2.json
+
+prc:
+	git add .pre-commit-config.yaml
