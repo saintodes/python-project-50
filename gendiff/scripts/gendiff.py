@@ -1,8 +1,9 @@
 import argparse
+
 from gendiff.scripts.file_parser import read_file
 
-
 # gendiff/scripts/gendiff.py
+
 
 def generate_diff(data1, data2):
     diff = []
@@ -26,6 +27,7 @@ def generate_diff_from_files(first_file, second_file):
     data2 = read_file(second_file)
     return generate_diff(data1, data2)
 
+
 def main():
     parser = argparse.ArgumentParser(
         description="Compares two configuration\
@@ -35,7 +37,10 @@ def main():
     parser.add_argument("second_file", type=str, help="Second file to compare")
     args = parser.parse_args()
 
-    print(generate_diff_from_files(args.first_file, args.second_file))  # This line is already updated
+    print(
+        generate_diff_from_files(args.first_file, args.second_file)
+    )  # This line is already updated
+
 
 if __name__ == "__main__":
     main()
