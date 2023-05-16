@@ -1,0 +1,1 @@
+{'follow': {'value': False, 'status': 'removed'}, 'host': {'value': 'hexlet.io', 'status': 'unchanged'}, 'proxy': {'value': '123.234.53.22', 'status': 'removed'}, 'timeout': {'old_value': 50, 'new_value': 20, 'status': 'changed'}, 'verbose': {'value': True, 'status': 'added'}}

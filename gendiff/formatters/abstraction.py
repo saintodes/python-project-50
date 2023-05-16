@@ -29,5 +29,5 @@ def create_abstraction(dict1, dict2):
                     'new_value': value2,
                     'status': CHANGED
                 }})
-    print(result)
     return result
+
