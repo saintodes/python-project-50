@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+
 import argparse
 from gendiff.gendiff import generate_diff
 
@@ -17,7 +18,7 @@ def parce_cl():
 def main():
     args = parce_cl()
     difference = generate_diff(args.first_file, args.second_file, args.style)
-    return difference
+    print(difference)
 
 if __name__ == "__main__":
     main()

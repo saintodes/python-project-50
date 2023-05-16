@@ -7,4 +7,4 @@ def generate_diff(file_path_1, file_path_2, format_name='stylish'):
     dict2 = parse_file(file_path_2)
     abstraction = create_abstraction(dict1, dict2)
     result = formatter(abstraction, format_name)
-    return print(result)
+    return result
