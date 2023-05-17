@@ -42,16 +42,18 @@ def test_plain_nested():
 
     assert generate_diff(yml_dict1, yml_dict2, 'plain') == open(nested_result, 'r').read()
 
-# def test_flat_abstraction():
-#     json_file1 = 'tests/fixtures/flat/file1.json'
-#     json_file2 = 'tests/fixtures/flat/file2.json'
-#     with open(json_file1, 'r') as f:
-#         dict1 = json.load(f)
-#     with open(json_file2, 'r') as f:
-#         dict2 = json.load(f)
-#     expected_result = 'tests/fixtures/flat/expected_flat_abstraction.txt'
+def test_json_nested():
+    json_dict1 = 'tests/fixtures/nested/file1.json'
+    json_dict2 = 'tests/fixtures/nested/file2.json'
+    nested_result = 'tests/fixtures/to_json/json_expected.txt'
 
-#     assert create_abstraction(dict1, dict2) == open(expected_result, 'r').read()
+    assert generate_diff(json_dict1, json_dict2, 'json') == open(nested_result, 'r').read()
+
+    yml_dict1 = 'tests/fixtures/nested/file1.yml'
+    yml_dict2 = 'tests/fixtures/nested/file2.yml'
+
+    assert generate_diff(yml_dict1, yml_dict2, 'json') == open(nested_result, 'r').read()
+
 
     
 
