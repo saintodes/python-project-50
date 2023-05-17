@@ -1,4 +1,5 @@
 import json
 
 
-build_json = lambda abstraction: json.dumps(abstraction)
+def build_json(abstraction):
+    return json.dumps(abstraction)
