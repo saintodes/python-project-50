@@ -30,6 +30,8 @@ runfs:
 
 runnp:
 	poetry run gendiff '/home/sainttu/Projects/hexlet/python-project-50/tests/fixtures/nested/file1.json' '/home/sainttu/Projects/hexlet/python-project-50/tests/fixtures/nested/file2.json' 'plain'
+runnj:
+	poetry run gendiff '/home/sainttu/Projects/hexlet/python-project-50/tests/fixtures/nested/file1.json' '/home/sainttu/Projects/hexlet/python-project-50/tests/fixtures/nested/file2.json' 'json'
 
 prc:
 	git add .pre-commit-config.yaml
