@@ -20,7 +20,7 @@ def parce_cl():
 
 def main():
     args = parce_cl()
-    difference = generate_diff(args.first_file, args.second_file, args.style)
+    difference = generate_diff(args.first_file, args.second_file, args.format)
     print(difference)
 
 
