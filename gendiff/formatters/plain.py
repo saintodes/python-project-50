@@ -37,19 +37,20 @@ def update_property(result, path, key, old_value, new_value):
 
 
 def process_node(result, key, node, path=""):
+    status_handlers = {
+        "unchanged": lambda: None,
+        "added": lambda: add_property(result, path, key, node["value"]),
+        "removed": lambda: remove_property(result, path, key),
+        "changed": lambda: update_property(
+            result, path, key, node["old_value"], node["new_value"]
+        ),
+    }
+
     if isinstance(node, dict):
-        if "status" in node:
-            status = node["status"]
-            if status == "unchanged":
-                return
-            elif status == "added":
-                add_property(result, path, key, node["value"])
-            elif status == "removed":
-                remove_property(result, path, key)
-            elif status == "changed":
-                old_value = node["old_value"]
-                new_value = node["new_value"]
-                update_property(result, path, key, old_value, new_value)
+        status = node.get("status")
+        if status in status_handlers:
+            status_handlers[status]()
+
         if "value" in node and isinstance(node["value"], dict):
             new_path = f"{path}{key}."
             result.extend(tree_parser(node["value"], path=new_path))
