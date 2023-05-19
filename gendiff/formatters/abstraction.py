@@ -1,8 +1,9 @@
-from gendiff.formatters.constants import *
+from gendiff.formatters.constants import ADDED, REMOVED, \
+    CHANGED, UNCHANGED, NESTED
 
 
 def create_node(key, value, status):
-    return {key: {'value': value, 'status': status}}
+    return {key: {"value": value, "status": status}}
 
 
 def create_abstraction(dict1, dict2):
@@ -24,10 +25,13 @@ def create_abstraction(dict1, dict2):
             if value1 == value2:
                 result.update(create_node(key, value1, UNCHANGED))
             else:
-                result.update({key: {
-                    'old_value': value1,
-                    'new_value': value2,
-                    'status': CHANGED
-                }})
+                result.update(
+                    {
+                        key: {
+                            "old_value": value1,
+                            "new_value": value2,
+                            "status": CHANGED,
+                        }
+                    }
+                )
     return result
-

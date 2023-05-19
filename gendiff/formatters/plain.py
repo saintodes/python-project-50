@@ -10,10 +10,8 @@ def add_property(result, path, key, value):
             f"Property '{path}{key}' was added with value: [complex value]"
         )
     else:
-        value_str = stringify(value)
-        result.append(
-            f"Property '{path}{key}' was added with value: {value_str}"
-        )
+        v_s = stringify(value)  # value string
+        result.append(f"Property '{path}{key}' was added with value: {v_s}")
 
 
 def remove_property(result, path, key):
@@ -22,21 +20,20 @@ def remove_property(result, path, key):
 
 def update_property(result, path, key, old_value, new_value):
     if isinstance(old_value, dict):
-        new_value_str = stringify(new_value)
+        nvs = stringify(new_value)  # new value string
         result.append(
-            f"Property '{path}{key}' was updated. From [complex value] to {new_value_str}"
+            f"Property '{path}{key}' was updated. From [complex value] to {nvs}"
         )
     elif isinstance(new_value, dict):
-        old_value_str = stringify(old_value)
+        ovs = stringify(old_value)  # old value string
         result.append(
-            f"Property '{path}{key}' was updated. From {old_value_str} to [complex value]"
+            f"Property '{path}{key}' was updated. From {ovs} to [complex value]"
         )
     else:
-        old_value_str = stringify(old_value)
-        new_value_str = stringify(new_value)
+        ovs = stringify(old_value)
+        nvs = stringify(new_value)
         result.append(
-            f"Property '{path}{key}' was updated. From {old_value_str} to {new_value_str}"
-        )
+            f"Property '{path}{key}' was updated. From {ovs} to {nvs}")
 
 
 def process_node(result, key, node, path=""):
