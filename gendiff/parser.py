@@ -11,6 +11,5 @@ def parse_file(file_path):
         elif file_extension in [".yml", ".yaml"]:
             data = yaml.safe_load(file)
         else:
-            print(f"Неподдерживаемый формат файла: {file_extension}")
-            return None
+            raise ValueError(f"Неподдерживаемый формат файла: {file_extension}")
     return data
