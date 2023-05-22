@@ -6,7 +6,7 @@ def create_node(key, value, status):
     return {key: {"value": value, "status": status}}
 
 
-def create_abstraction(dict1, dict2):
+def create_tree_diff(dict1, dict2):
     result = {}
     all_keys = sorted(set(dict1.keys()) | set(dict2.keys()))
     removed_keys = set(dict1.keys()) - set(dict2.keys())
@@ -15,7 +15,7 @@ def create_abstraction(dict1, dict2):
         value1 = dict1.get(key)
         value2 = dict2.get(key)
         if isinstance(value1, dict) and isinstance(value2, dict):
-            child = create_abstraction(value1, value2)
+            child = create_tree_diff(value1, value2)
             result.update(create_node(key, child, NESTED))
         elif key in removed_keys:
             result.update(create_node(key, dict1.get(key), REMOVED))
