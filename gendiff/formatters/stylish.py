@@ -6,8 +6,7 @@ def format_dict(value, level):
     ind_space = " " * (INDENT_LENGTH)
     formatted_value = ["{\n"]
     formatted_value.extend(
-        f"{ind_space * (level + 1)}{key}: {format_val(val, level + 1)}"
-        f"\n"
+        f"{ind_space * (level + 1)}{key}: {format_val(val, level + 1)}" f"\n"
         for key, val in value.items()
     )
     formatted_value.append(f"{ind_space * level}}}")
@@ -25,30 +24,33 @@ def format_val(value, level):
         return str(value)
 
 
-def format_status_unchanged(node, key, ind_s, ind_min_s, level):
-    return [f"{ind_s}{key}: {format_val(node['value'], level)}\n"]
+def format_status_unchanged(node, key, indentation, level):
+    return [f"{indentation}{key}: {format_val(node['value'], level)}\n"]
 
 
-def format_status_added(node, key, ind_s, ind_min_s, level):
+def format_status_added(node, key, indentation, level):
+    ind_min_s = indentation[:-SIGN_LENGTH]
     return [f"{ind_min_s}+ {key}: {format_val(node['value'], level)}\n"]
 
 
-def format_status_removed(node, key, ind_s, ind_min_s, level):
+def format_status_removed(node, key, indentation, level):
+    ind_min_s = indentation[:-SIGN_LENGTH]
     return [f"{ind_min_s}- {key}: {format_val(node['value'], level)}\n"]
 
 
-def format_status_changed(node, key, ind_s, ind_min_s, level):
+def format_status_changed(node, key, indentation, level):
+    ind_min_s = indentation[:-SIGN_LENGTH]
     return [
         f"{ind_min_s}- {key}: {format_val(node['old_value'], level)}\n",
         f"{ind_min_s}+ {key}: {format_val(node['new_value'], level)}\n",
     ]
 
 
-def format_status_nested(node, key, ind_s, ind_min_s, level):
+def format_status_nested(node, key, indentation, level):
     return (
-        [f"{ind_s}{key}: {{\n"]
+        [f"{indentation}{key}: {{\n"]
         + tree_parser(node["value"], level + 1)
-        + [f"{ind_s}}}\n"]
+        + [f"{indentation}}}\n"]
     )
 
 
@@ -62,11 +64,12 @@ STATUS_FUNCTIONS = {
 
 
 def tree_parser(branch, level):
-    ind_s = " " * (INDENT_LENGTH * level)
-    ind_min_s = " " * ((INDENT_LENGTH * level) - SIGN_LENGTH)
+    indentation = " " * (INDENT_LENGTH * level)
 
     result = [
-        STATUS_FUNCTIONS.get(node["status"], lambda *args: [])(node, key, ind_s, ind_min_s, level)
+        STATUS_FUNCTIONS.get(node["status"], lambda *args: [])(
+            node, key, indentation, level
+        )
         for key, node in sorted(branch.items())
     ]
     return [item for sublist in result for item in sublist]
