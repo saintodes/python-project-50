@@ -46,16 +46,20 @@ def generate_diff_keys(dict1, dict2):
 
 
 def handle_key(dict1, dict2, key, removed_keys, added_keys):
+    result = None
+
     if key in removed_keys:
-        return handle_removed(dict1, key)
+        result = handle_removed(dict1, key)
     elif key in added_keys:
-        return handle_added(dict2, key)
+        result = handle_added(dict2, key)
     elif isinstance(dict1.get(key), dict) and isinstance(dict2.get(key), dict):
-        return handle_nested(dict1, dict2, key)
+        result = handle_nested(dict1, dict2, key)
     elif dict1.get(key) == dict2.get(key):
-        return handle_unchanged(dict1, key)
+        result = handle_unchanged(dict1, key)
     else:
-        return handle_changed(dict1, dict2, key)
+        result = handle_changed(dict1, dict2, key)
+
+    return result
 
 
 def handle_keys(dict1, dict2, all_keys, removed_keys, added_keys):
