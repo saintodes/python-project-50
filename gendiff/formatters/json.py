@@ -1,5 +1,5 @@
 import json
 
 
-def build_json(abstraction):
-    return json.dumps(abstraction)
+def build_json(tree_diff):
+    return json.dumps(tree_diff)

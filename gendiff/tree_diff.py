@@ -11,52 +11,60 @@ def create_node(key, value, status):
     return {key: {"value": value, "status": status}}
 
 
-def handle_nested(dict1, dict2, key, result):
+def handle_nested(dict1, dict2, key):
     child = create_tree_diff(dict1.get(key), dict2.get(key))
-    result.update(create_node(key, child, NESTED))
+    return create_node(key, child, NESTED)
 
 
-def handle_removed(dict1, key, result):
-    result.update(create_node(key, dict1.get(key), REMOVED))
+def handle_removed(dict1, key):
+    return create_node(key, dict1.get(key), REMOVED)
 
 
-def handle_added(dict2, key, result):
-    result.update(create_node(key, dict2.get(key), ADDED))
+def handle_added(dict2, key):
+    return create_node(key, dict2.get(key), ADDED)
 
 
-def handle_changed(dict1, dict2, key, result):
-    result.update(
-        {
-            key: {
-                "old_value": dict1.get(key),
-                "new_value": dict2.get(key),
-                "status": CHANGED,
-            }
+def handle_changed(dict1, dict2, key):
+    return {
+        key: {
+            "old_value": dict1.get(key),
+            "new_value": dict2.get(key),
+            "status": CHANGED,
         }
-    )
+    }
 
 
-def handle_unchanged(dict1, key, result):
-    result.update(create_node(key, dict1.get(key), UNCHANGED))
+def handle_unchanged(dict1, key):
+    return create_node(key, dict1.get(key), UNCHANGED)
 
 
-def create_tree_diff(dict1, dict2):
-    result = {}
+def generate_diff_keys(dict1, dict2):
     all_keys = sorted(set(dict1.keys()) | set(dict2.keys()))
     removed_keys = set(dict1.keys()) - set(dict2.keys())
     added_keys = set(dict2.keys()) - set(dict1.keys())
+    return all_keys, removed_keys, added_keys
+
+
+def handle_key(dict1, dict2, key, removed_keys, added_keys):
+    if key in removed_keys:
+        return handle_removed(dict1, key)
+    elif key in added_keys:
+        return handle_added(dict2, key)
+    elif isinstance(dict1.get(key), dict) and isinstance(dict2.get(key), dict):
+        return handle_nested(dict1, dict2, key)
+    elif dict1.get(key) == dict2.get(key):
+        return handle_unchanged(dict1, key)
+    else:
+        return handle_changed(dict1, dict2, key)
+
+
+def handle_keys(dict1, dict2, all_keys, removed_keys, added_keys):
+    result = {}
     for key in all_keys:
-        value1 = dict1.get(key)
-        value2 = dict2.get(key)
-        if isinstance(value1, dict) and isinstance(value2, dict):
-            handle_nested(dict1, dict2, key, result)
-        elif key in removed_keys:
-            handle_removed(dict1, key, result)
-        elif key in added_keys:
-            handle_added(dict2, key, result)
-        else:
-            if value1 == value2:
-                handle_unchanged(dict1, key, result)
-            else:
-                handle_changed(dict1, dict2, key, result)
+        result.update(handle_key(dict1, dict2, key, removed_keys, added_keys))
     return result
+
+
+def create_tree_diff(dict1, dict2):
+    all_keys, removed_keys, added_keys = generate_diff_keys(dict1, dict2)
+    return handle_keys(dict1, dict2, all_keys, removed_keys, added_keys)
