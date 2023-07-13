@@ -1,12 +1,12 @@
-from gendiff.formatters.stylish import build_stylish
+from gendiff.formatters.stylish import stylish_format
 from gendiff.formatters.plain import build_plain
 from gendiff.formatters.json import build_json
 
 
-def formatter(abstraction, format):
+def formatter(tree_diff, format):
     if format == "stylish":
-        return build_stylish(abstraction)
+        return stylish_format(tree_diff)
     elif format == "plain":
-        return build_plain(abstraction)
+        return build_plain(tree_diff)
     elif format == "json":
-        return build_json(abstraction)
+        return build_json(tree_diff)

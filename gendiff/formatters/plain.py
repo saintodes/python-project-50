@@ -1,6 +1,6 @@
-def build_plain(abstraction):
+def build_plain(tree_diff):
     result = []
-    result.extend(tree_parser(abstraction))
+    result.extend(tree_parser(tree_diff))
     return "\n".join(result)
 
 
@@ -10,7 +10,7 @@ def add_property(result, path, key, value):
             f"Property '{path}{key}' was added with value: [complex value]"
         )
     else:
-        v_s = stringify(value)  # value string
+        v_s = stringify(value)
         result.append(f"Property '{path}{key}' was added with value: {v_s}")
 
 
@@ -20,12 +20,12 @@ def remove_property(result, path, key):
 
 def update_property(result, path, key, old_value, new_value):
     if isinstance(old_value, dict):
-        nvs = stringify(new_value)  # new value string
+        nvs = stringify(new_value)
         result.append(
             f"Property '{path}{key}' was updated. From [complex value] to {nvs}"
         )
     elif isinstance(new_value, dict):
-        ovs = stringify(old_value)  # old value string
+        ovs = stringify(old_value)
         result.append(
             f"Property '{path}{key}' was updated. From {ovs} to [complex value]"
         )

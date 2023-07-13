@@ -3,13 +3,24 @@ import yaml
 import os
 
 
-def parse_file(file_path):
+def parse_data(data, format):
+    parsers = {
+        '.json': json.loads,
+        '.yml': yaml.safe_load,
+        '.yaml': yaml.safe_load
+    }
+
+    try:
+        parser = parsers[format]
+    except KeyError:
+        raise ValueError(f"Unsupported data format: {format}")
+    return parser(data)
+
+
+def read_file(file_path):
     _, file_extension = os.path.splitext(file_path)
+
     with open(file_path, "r") as file:
-        if file_extension == ".json":
-            data = json.load(file)
-        elif file_extension in [".yml", ".yaml"]:
-            data = yaml.safe_load(file)
-        else:
-            raise ValueError(f"Неподдерживаемый формат файла: {file_extension}")
-    return data
+        data = file.read()
+
+    return parse_data(data, file_extension)
