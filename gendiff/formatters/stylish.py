@@ -30,9 +30,9 @@ def make_changed(node, key, ind_s, ind_min_s, level):
 
 def make_nested(node, key, ind_s, ind_min_s, level):
     return (
-            [f"{ind_s}{key}: {{\n"]
-            + tree_parser(node["value"], level + 1)
-            + [f"{ind_s}}}\n"]
+        [f"{ind_s}{key}: {{\n"]
+        + tree_parser(node["value"], level + 1)
+        + [f"{ind_s}}}\n"]
     )
 
 
@@ -65,7 +65,8 @@ def format_val(value, level):
         for key, val in value.items():
             formatted_value.append(
                 f"{ind_space * (level + 1)}{key}: {format_val(val, level + 1)}"
-                f"\n")
+                f"\n"
+            )
         formatted_value.append(f"{ind_space * level}}}")
         return "".join(formatted_value)
     elif isinstance(value, bool):
